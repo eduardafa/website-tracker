@@ -2,26 +2,30 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 )
 
 func main() {
 
-	showIntroduction()
-	showMenu()
-	command := readCommand()
+	for {
+		showIntroduction()
+		showMenu()
 
-	switch command {
-	case 1:
-		fmt.Println("Monitoring...")
-	case 2:
-		fmt.Println("Showing logs...")
-	case 0:
-		fmt.Println("Quitting the program")
-		os.Exit(0)
-	default:
-		fmt.Println("Unknown command")
-		os.Exit(-1)
+		command := readCommand()
+
+		switch command {
+		case 1:
+			startMonitoring()
+		case 2:
+			fmt.Println("Showing logs...")
+		case 0:
+			fmt.Println("Quit program")
+			os.Exit(0)
+		default:
+			fmt.Println("Unknown command")
+			os.Exit(-1)
+		}
 	}
 }
 
@@ -46,6 +50,13 @@ func readCommand() int {
 	return command
 }
 
-func quitProgram() {
-
+func startMonitoring() {
+	fmt.Println("Monitoring...")
+	website := "https://random-status-code.herokuapp.com/"
+	response, _ := http.Get(website)
+	if response.StatusCode == 200 {
+		fmt.Println("Website:", website, "was loaded successfully!")
+	} else {
+		fmt.Println("Something wrong with the website:", website, "- Status Code:", response.StatusCode)
+	}
 }
