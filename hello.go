@@ -52,6 +52,13 @@ func readCommand() int {
 
 func startMonitoring() {
 	fmt.Println("Monitoring...")
+	var websites [4]string
+	websites[0] = "https://random-status-code.herokuapp.com/"
+	websites[1] = "https://www.alura.com.br/"
+	websites[2] = "https://www.caelum.com.br/"
+
+	fmt.Println(websites)
+
 	website := "https://random-status-code.herokuapp.com/"
 	response, _ := http.Get(website)
 	if response.StatusCode == 200 {
